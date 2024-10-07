@@ -1,4 +1,4 @@
-// pages/receipt.tsx
+import React from 'react';
 import Receipt from '@/components/Receipt/Receipt';
 
 interface ReceiptData {

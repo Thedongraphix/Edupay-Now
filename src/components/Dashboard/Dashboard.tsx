@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FaWallet, FaCalendarAlt, FaHistory, FaCreditCard } from 'react-icons/fa';
 
+type Transaction = {
+  id: number;
+  date: string;
+  amount: number;
+  description: string;
+};
+
 const Dashboard = () => {
-  const [fees, setFees] = useState({ amountDue: 0, dueDate: '' });
-  const [transactions, setTransactions] = useState([]);
+  const [fees, setFees] = useState<{ amountDue: number; dueDate: string }>({ amountDue: 0, dueDate: '' });
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
     // Fetch fee structure from backend

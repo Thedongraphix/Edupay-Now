@@ -19,9 +19,7 @@ const Receipt = ({ receiptData }: { receiptData: ReceiptData }) => {
           <div className="flex items-center">
             <FaDollarSign className="text-blue-500 mr-2" />
             <span className="text-gray-600">Amount Paid:</span>
-            <span className="ml-2 font-semibold">
-              ${typeof receiptData.amountPaid === 'number' ? receiptData.amountPaid.toFixed(2) : '0.00'}
-            </span>
+             <span className="ml-2 font-semibold">${receiptData.amountPaid?.toFixed(2) ?? 'N/A'}</span>
           </div>
           <div className="flex items-center">
             <FaCalendarAlt className="text-blue-500 mr-2" />
@@ -40,7 +38,6 @@ const Receipt = ({ receiptData }: { receiptData: ReceiptData }) => {
           </div>
         </div>
       </div>
-      
       <div>
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Student Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -56,7 +53,6 @@ const Receipt = ({ receiptData }: { receiptData: ReceiptData }) => {
           </div>
         </div>
       </div>
-
       <div className="mt-8 text-center">
         <button className="bg-blue-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-700 transition duration-300 mr-4">
           Download Receipt
