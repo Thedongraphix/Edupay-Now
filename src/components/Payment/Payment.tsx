@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaEthereum, FaBitcoin, FaCreditCard, FaWallet } from 'react-icons/fa';
+import { FaEthereum, FaBitcoin, FaCreditCard, FaPaypal } from 'react-icons/fa';
 
 const Payment = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -19,7 +19,7 @@ const Payment = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
@@ -59,16 +59,16 @@ const Payment = () => {
                 key={method}
                 type="button"
                 onClick={() => setPaymentMethod(method)}
-                className={`flex items-center justify-center p-4 border rounded-md ${
+                className={`flex items-center justify-center p-4 border rounded-lg transition-colors duration-300 ${
                   paymentMethod === method
                     ? 'bg-blue-100 border-blue-500 text-blue-700'
                     : 'border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
               >
-                {method === 'Ethereum' && <FaEthereum className="mr-2" />}
-                {method === 'Bitcoin' && <FaBitcoin className="mr-2" />}
-                {method === 'Credit Card' && <FaCreditCard className="mr-2" />}
-                {method === 'PayPal' && <FaWallet className="mr-2" />}
+                {method === 'Ethereum' && <FaEthereum className="mr-2 text-blue-500" />}
+                {method === 'Bitcoin' && <FaBitcoin className="mr-2 text-orange-500" />}
+                {method === 'Credit Card' && <FaCreditCard className="mr-2 text-indigo-500" />}
+                {method === 'PayPal' && <FaPaypal className="mr-2 text-blue-600" />}
                 {method}
               </button>
             ))}
@@ -76,7 +76,7 @@ const Payment = () => {
         </div>
 
         {(paymentMethod === 'Ethereum' || paymentMethod === 'Bitcoin') && (
-          <div className="bg-gray-50 p-4 rounded-md">
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h3 className="text-lg font-semibold mb-2">Connect Your Wallet</h3>
             {walletConnected ? (
               <p className="text-green-600">Wallet connected successfully!</p>
@@ -84,7 +84,7 @@ const Payment = () => {
               <button
                 type="button"
                 onClick={connectWallet}
-                className="bg-blue-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-700 transition duration-300"
+                className="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
               >
                 Connect Wallet
               </button>
@@ -97,26 +97,51 @@ const Payment = () => {
             <input
               type="text"
               placeholder="Card Number"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
             <div className="flex space-x-4">
               <input
                 type="text"
                 placeholder="MM/YY"
-                className="w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-1/2 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
               <input
                 type="text"
                 placeholder="CVV"
-                className="w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-1/2 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
         )}
 
+        {paymentMethod === 'PayPal' && (
+          <div className="space-y-4">
+            <select
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">Select PayPal Account</option>
+              <option value="personal">Personal Account</option>
+              <option value="business">Business Account</option>
+            </select>
+          </div>
+        )}
+
+        {paymentMethod === 'Bitcoin' && (
+          <div className="space-y-4">
+            <select
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">Select Bitcoin Wallet</option>
+              <option value="hardware">Hardware Wallet</option>
+              <option value="software">Software Wallet</option>
+              <option value="paper">Paper Wallet</option>
+            </select>
+          </div>
+        )}
+
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-3 px-4 rounded-md font-semibold hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
         >
           Complete Payment
         </button>
