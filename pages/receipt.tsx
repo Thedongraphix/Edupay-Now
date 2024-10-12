@@ -60,7 +60,7 @@ const Receipt = ({ receiptData }: { receiptData: ReceiptData }) => {
         </div>
       </div>
       <div className="bg-gray-50 px-6 py-4 flex justify-between items-center">
-        <button className="flex items-center text-gray-600 hover:text-gray-800 transition duration-300">
+        <button onClick={() => window.history.back()} className="flex items-center text-gray-600 hover:text-gray-800 transition duration-300">
           <FaArrowLeft className="mr-2" />
           Back to Dashboard
         </button>
