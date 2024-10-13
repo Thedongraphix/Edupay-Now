@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import styles from '@/styles/index.module.css';
-import { FaBitcoin, FaEthereum } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { FaBitcoin, FaEthereum, FaGraduationCap, FaChalkboardTeacher } from 'react-icons/fa';
 import { SiLitecoin, SiRipple } from 'react-icons/si';
 
 interface Circle {
@@ -14,7 +14,7 @@ interface Circle {
 
 interface CryptoIcon {
   id: number;
-  Icon: React.ReactNode;
+  Icon: React.ElementType;
   color: string;
   left: string;
   top: string;
@@ -42,15 +42,17 @@ const Home = () => {
       { Icon: FaEthereum, color: '#627eea' },
       { Icon: SiLitecoin, color: '#bfbbbb' },
       { Icon: SiRipple, color: '#0085c0' },
+      { Icon: FaGraduationCap, color: '#4CAF50' },
+      { Icon: FaChalkboardTeacher, color: '#FF9800' },
     ];
 
-    const newCryptoIcons = Array(8).fill(0).map((_, i) => ({
+    const newCryptoIcons = Array(10).fill(0).map((_, i) => ({
       id: i,
-      Icon: React.createElement(icons[i % icons.length].Icon),
+      Icon: icons[i % icons.length].Icon,
       color: icons[i % icons.length].color,
-      left: Math.random() * 90 + 5 + '%',
-      top: Math.random() * 90 + 5 + '%',
-      size: Math.random() * 20 + 20,
+      left: Math.random() * 80 + 10 + '%', // Increased padding from center
+      top: Math.random() * 80 + 10 + '%',  // Increased padding from center
+      size: Math.random() * 30 + 30,
       duration: Math.random() * 15 + 15,
       delay: Math.random() * 5,
     }));
@@ -72,10 +74,11 @@ const Home = () => {
             {circles.map((circle) => (
               <circle
                 key={circle.id}
-                className={styles.dot}
+                className="opacity-20"
                 cx={circle.cx}
                 cy={circle.cy}
                 r={circle.r}
+                fill="#4299E1"
               >
                 <animate
                   attributeName="cy"
@@ -92,43 +95,90 @@ const Home = () => {
 
       {/* Floating crypto icons */}
       {cryptoIcons.map((icon) => (
-        <div
+        <motion.div
           key={icon.id}
-          className={`${styles.floatingIcon} absolute`}
+          className="absolute opacity-50" // Reduced opacity to enhance readability
           style={{
             left: icon.left,
             top: icon.top,
             fontSize: `${icon.size}px`,
             color: icon.color,
-            animationDuration: `${icon.duration}s`,
-            animationDelay: `${icon.delay}s`,
+          }}
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, 360],
+          }}
+          transition={{
+            duration: icon.duration,
+            delay: icon.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
           }}
         >
-          {icon.Icon}
-        </div>
+          <icon.Icon />
+        </motion.div>
       ))}
 
       {/* Content */}
-      <div className="max-w-md w-full space-y-8 relative z-10">
+      <motion.div
+        className="max-w-4xl w-full space-y-8 relative z-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
+          <motion.h1
+            className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 sm:text-6xl md:text-7xl"
+            initial={{ scale: 0.5 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             Edupay
-          </h1>
-          <h2 className="mt-3 text-3xl font-bold text-blue-400 sm:text-4xl md:text-5xl">
-            Crypto School Payment System
-          </h2>
-          <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg md:mt-5 md:text-xl">
-            Securely manage your school payments with cryptocurrency
-          </p>
+          </motion.h1>
+          <motion.h2
+            className="mt-3 text-3xl font-bold text-white sm:text-4xl md:text-5xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <span className="text-blue-400">Crypto</span> Meets <span className="text-green-400">Education</span>
+          </motion.h2>
+          <motion.p
+            className="mt-3 text-xl text-gray-300 sm:mt-5 sm:text-2xl md:mt-5 md:text-3xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            Revolutionizing School Payments with Blockchain Technology
+          </motion.p>
         </div>
-        <div className="mt-10 flex justify-center">
-          <Link href="/register" className="inline-block">
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
-              Register Now
-            </button>
+        <motion.div
+          className="mt-10 flex justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+        >
+          <Link href="/register" passHref>
+            <motion.button
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-4 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 shadow-lg"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Join the Future of Education Finance
+            </motion.button>
           </Link>
-        </div>
-      </div>
+        </motion.div>
+        <motion.div
+          className="mt-10 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1 }}
+        >
+          <p className="text-gray-400 text-lg">
+            Secure • Transparent • Efficient
+          </p>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
