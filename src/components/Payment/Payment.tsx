@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaEthereum, FaBitcoin, FaCreditCard, FaPaypal } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { FaCreditCard, FaPaypal, FaBitcoin, FaEthereum, FaWallet } from 'react-icons/fa';
 
 const Payment = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -18,135 +19,114 @@ const Payment = () => {
     setWalletConnected(true);
   };
 
+  const paymentMethods = [
+    { id: 'credit-card', name: 'Credit Card', icon: FaCreditCard, color: 'bg-red-500' },
+    { id: 'paypal', name: 'PayPal', icon: FaPaypal, color: 'bg-blue-500' },
+    { id: 'bitcoin', name: 'Bitcoin', icon: FaBitcoin, color: 'bg-yellow-500' },
+    { id: 'ethereum', name: 'Ethereum', icon: FaEthereum, color: 'bg-purple-500' },
+  ];
+
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-xl p-8 max-w-4xl mx-auto"
+    >
+      <h2 className="text-3xl font-bold text-white mb-6">Make a Payment</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
-            Payment Amount
-          </label>
-          <div className="flex">
-            <select
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value)}
-              className="rounded-l-md border-r-0 focus:ring-blue-500 focus:border-blue-500 block w-1/4 sm:text-sm border-gray-300"
-            >
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              <option value="GBP">GBP</option>
-              <option value="BTC">BTC</option>
-              <option value="ETH">ETH</option>
-            </select>
-            <input
-              type="number"
-              id="amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="rounded-r-md focus:ring-blue-500 focus:border-blue-500 block w-3/4 sm:text-sm border-gray-300"
-              placeholder="Enter amount"
-              required
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Select Payment Method
-          </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {['Credit Card', 'PayPal', 'Ethereum', 'Bitcoin'].map((method) => (
-              <button
-                key={method}
-                type="button"
-                onClick={() => setPaymentMethod(method)}
-                className={`flex items-center justify-center p-4 border rounded-lg transition-colors duration-300 ${
-                  paymentMethod === method
-                    ? 'bg-blue-100 border-blue-500 text-blue-700'
-                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
+        <div className="flex space-x-4">
+          <div className="w-1/2">
+            <label htmlFor="amount" className="block text-sm font-medium text-white mb-1">
+              Payment Amount
+            </label>
+            <div className="flex">
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="rounded-l-md border-r-0 focus:ring-blue-300 focus:border-blue-300 block w-1/3 sm:text-sm border-gray-600 bg-gray-700 text-white"
               >
-                {method === 'Ethereum' && <FaEthereum className="mr-2 text-blue-500" />}
-                {method === 'Bitcoin' && <FaBitcoin className="mr-2 text-orange-500" />}
-                {method === 'Credit Card' && <FaCreditCard className="mr-2 text-indigo-500" />}
-                {method === 'PayPal' && <FaPaypal className="mr-2 text-blue-600" />}
-                {method}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {(paymentMethod === 'Ethereum' || paymentMethod === 'Bitcoin') && (
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <h3 className="text-lg font-semibold mb-2">Connect Your Wallet</h3>
-            {walletConnected ? (
-              <p className="text-green-600">Wallet connected successfully!</p>
-            ) : (
-              <button
-                type="button"
-                onClick={connectWallet}
-                className="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
-              >
-                Connect Wallet
-              </button>
-            )}
-          </div>
-        )}
-
-        {paymentMethod === 'Credit Card' && (
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Card Number"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-            <div className="flex space-x-4">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="BTC">BTC</option>
+                <option value="ETH">ETH</option>
+              </select>
               <input
-                type="text"
-                placeholder="MM/YY"
-                className="w-1/2 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              <input
-                type="text"
-                placeholder="CVV"
-                className="w-1/2 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                type="number"
+                id="amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="rounded-r-md focus:ring-blue-300 focus:border-blue-300 block w-2/3 sm:text-sm border-gray-600 bg-gray-700 text-white"
+                placeholder="Enter amount"
+                required
               />
             </div>
           </div>
-        )}
-
-        {paymentMethod === 'PayPal' && (
-          <div className="space-y-4">
-            <select
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">Select PayPal Account</option>
-              <option value="personal">Personal Account</option>
-              <option value="business">Business Account</option>
-            </select>
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-white mb-1">
+              Select Payment Method
+            </label>
+            <div className="flex space-x-2">
+              {paymentMethods.map((method) => (
+                <motion.button
+                  key={method.id}
+                  type="button"
+                  onClick={() => setPaymentMethod(method.id)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`flex-1 relative overflow-hidden rounded-lg transition-colors duration-300 ${
+                    paymentMethod === method.id
+                      ? 'ring-2 ring-white ring-opacity-60'
+                      : ''
+                  }`}
+                >
+                  <div className={`absolute inset-0 ${method.color} opacity-75`}></div>
+                  <div className="relative z-10 flex flex-col items-center justify-center p-4 space-y-2">
+                    <method.icon className="text-2xl text-white" />
+                    <span className="text-xs font-medium text-white">{method.name}</span>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
           </div>
+        </div>
+
+        {(paymentMethod === 'bitcoin' || paymentMethod === 'ethereum') && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            transition={{ duration: 0.3 }}
+            className="bg-gray-700 p-4 rounded-lg"
+          >
+            <h3 className="text-lg font-semibold text-white mb-2">Connect Your Wallet</h3>
+            {walletConnected ? (
+              <p className="text-green-300">Wallet connected successfully!</p>
+            ) : (
+              <motion.button
+                type="button"
+                onClick={connectWallet}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
+              >
+                <FaWallet className="inline-block mr-2" />
+                Connect Wallet
+              </motion.button>
+            )}
+          </motion.div>
         )}
 
-        {paymentMethod === 'Bitcoin' && (
-          <div className="space-y-4">
-            <select
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">Select Bitcoin Wallet</option>
-              <option value="hardware">Hardware Wallet</option>
-              <option value="software">Software Wallet</option>
-              <option value="paper">Paper Wallet</option>
-            </select>
-          </div>
-        )}
-
-        <button
+        <motion.button
           type="submit"
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
         >
           Complete Payment
-        </button>
+        </motion.button>
       </form>
-    </div>
+    </motion.div>
   );
 };
 
