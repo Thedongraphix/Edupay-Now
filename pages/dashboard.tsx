@@ -194,7 +194,7 @@ const DashboardPage = () => {
                 />
               </motion.a>
             </Link>
-            <Link href="/payment-history" passHref>
+            <Link href="/history" passHref>
               <motion.a>
                 <QuickActionButton
                   icon={<FaHistory className="mr-2" />}
