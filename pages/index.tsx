@@ -175,7 +175,7 @@ const Home = () => {
           transition={{ duration: 0.5, delay: 1 }}
         >
           <p className="text-gray-400 text-lg">
-            Secure • Transparent • Efficient
+            {/*footer */}
           </p>
         </motion.div>
       </motion.div>
