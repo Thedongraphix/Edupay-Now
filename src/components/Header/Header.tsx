@@ -43,7 +43,8 @@ const Header: React.FC = () => {
                     className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1"
                   >
                     <Link href="/dashboard" className="block px-4 py-2 text-sm hover:bg-blue-600 transition-colors">Dashboard</Link>
-                    <Link href="/payments" className="block px-4 py-2 text-sm hover:bg-blue-600 transition-colors">Payments</Link>
+                    <Link href="/payment" className="block px-4 py-2 text-sm hover:bg-blue-600 transition-colors">Make Payment</Link>
+                    <Link href="/support" className="block px-4 py-2 text-sm hover:bg-blue-600 transition-colors">Support</Link>
                     <Link href="/settings" className="block px-4 py-2 text-sm hover:bg-blue-600 transition-colors">Settings</Link>
                     <Link href="/logout" className="block px-4 py-2 text-sm hover:bg-blue-600 transition-colors">Logout</Link>
                   </motion.div>
@@ -73,7 +74,8 @@ const Header: React.FC = () => {
               <Link href="#testimonials" className="hover:text-blue-400 transition-colors">Testimonials</Link>
               <Link href="#faq" className="hover:text-blue-400 transition-colors">FAQ</Link>
               <Link href="/dashboard" className="hover:text-blue-400 transition-colors">Dashboard</Link>
-              <Link href="/payments" className="hover:text-blue-400 transition-colors">Payments</Link>
+              <Link href="/payment" className="hover:text-blue-400 transition-colors">Make Payment</Link>
+              <Link href="/support" className="hover:text-blue-400 transition-colors">Support</Link>
               <Link href="/settings" className="hover:text-blue-400 transition-colors">Settings</Link>
               <Link href="/logout" className="hover:text-blue-400 transition-colors">Logout</Link>
             </nav>
