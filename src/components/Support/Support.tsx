@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaQuestionCircle, FaEnvelope, FaPhone, FaComments, FaBook } from 'react-icons/fa';
+import {  FaComments, FaBook } from 'react-icons/fa';
 
 interface TabProps {
   icon: React.ReactElement;

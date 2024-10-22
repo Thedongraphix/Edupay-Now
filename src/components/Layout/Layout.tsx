@@ -1,12 +1,17 @@
-// components/Layout.tsx
-import React from 'react';
+import React from 'react'
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="max-w-screen-lg mx-auto p-4">
-      {children}
-    </div>
-  );
-};
+interface LayoutProps {
+  children: React.ReactNode
+}
 
-export default Layout;
+const Layout: React.FC<LayoutProps> = ({ children }) => (
+  <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+    <Header />
+    <main className="flex-grow">{children}</main>
+    <Footer />
+  </div>
+)
+
+export default Layout
