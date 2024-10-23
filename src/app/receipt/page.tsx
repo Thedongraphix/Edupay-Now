@@ -1,28 +1,43 @@
 'use client'
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FaDollarSign, FaCalendarAlt, FaIdCard, FaCreditCard, FaUser, FaDownload, FaArrowLeft, FaHome, FaWallet, FaHistory, FaQuestionCircle } from 'react-icons/fa';
-import Link from 'next/link';
+
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { FaDollarSign, FaCalendarAlt, FaIdCard, FaCreditCard, FaUser, FaDownload, FaArrowLeft, FaHome, FaWallet, FaHistory, FaQuestionCircle } from 'react-icons/fa'
+import Link from 'next/link'
 
 interface ReceiptData {
-  amountPaid: number;
-  transactionId: string;
-  date: string;
-  paymentMethod: string;
-  studentName: string;
-  studentId: string;
+  amountPaid: number
+  transactionId: string
+  date: string
+  paymentMethod: string
+  studentName: string
+  studentId: string
 }
 
-const ReceiptPage = ({ receiptData }: { receiptData: ReceiptData }) => {
-  const [isMounted, setIsMounted] = useState(false);
+export default function ReceiptPage() {
+  const [isMounted, setIsMounted] = useState(false)
+  const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
 
-  // Ensure animations run only on the client side
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    setIsMounted(true)
+    // Simulate fetching receipt data
+    const fetchReceiptData = async () => {
+      // In a real application, you would fetch this data from an API
+      const data: ReceiptData = {
+        amountPaid: 2400,
+        transactionId: 'TXN-12345-ABCDE',
+        date: '3rd Oct. 2024',
+        paymentMethod: 'Coinbase',
+        studentName: 'Chris Lee',
+        studentId: 'STU-1234'
+      }
+      setReceiptData(data)
+    }
+    fetchReceiptData()
+  }, [])
 
-  if (!isMounted) {
-    return null; // Prevent rendering on the server
+  if (!isMounted || !receiptData) {
+    return null // Prevent rendering on the server or while loading
   }
 
   return (
@@ -37,8 +52,8 @@ const ReceiptPage = ({ receiptData }: { receiptData: ReceiptData }) => {
         <Receipt receiptData={receiptData} />
       </motion.div>
     </div>
-  );
-};
+  )
+}
 
 const NavBar = () => (
   <nav className="bg-gray-800 bg-opacity-30 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg mb-8 p-4">
@@ -49,24 +64,25 @@ const NavBar = () => (
       <NavButton href="/support" icon={<FaQuestionCircle />} label="Support" />
     </ul>
   </nav>
-);
+)
 
 const NavButton = ({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) => (
   <li>
-    <motion.a
-      whileHover={{ scale: 1.05, color: "#3B82F6" }}
-      whileTap={{ scale: 0.95 }}
-      href={href} // Pass href directly to motion.a
-      className="flex flex-col items-center text-gray-300 hover:text-blue-400 transition duration-300"
-    >
-      {icon}
-      <span className="text-xs mt-1">{label}</span>
-    </motion.a>
+    <Link href={href} passHref>
+      <motion.a
+        whileHover={{ scale: 1.05, color: "#3B82F6" }}
+        whileTap={{ scale: 0.95 }}
+        className="flex flex-col items-center text-gray-300 hover:text-blue-400 transition duration-300"
+      >
+        {icon}
+        <span className="text-xs mt-1">{label}</span>
+      </motion.a>
+    </Link>
   </li>
-);
+)
 
 const Receipt = ({ receiptData }: { receiptData: ReceiptData }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <motion.div
@@ -92,34 +108,34 @@ const Receipt = ({ receiptData }: { receiptData: ReceiptData }) => {
           <ReceiptItem
             icon={<FaDollarSign className="text-blue-400" />}
             label="Amount Paid"
-            value={receiptData?.amountPaid?.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) ?? '$2,400.00'}
+            value={receiptData.amountPaid.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
           />
           <ReceiptItem
             icon={<FaCalendarAlt className="text-blue-400" />}
             label="Date"
-            value={receiptData?.date ?? '3rd Oct. 2024'}
+            value={receiptData.date}
           />
           <ReceiptItem
             icon={<FaIdCard className="text-blue-400" />}
             label="Transaction ID"
-            value={receiptData?.transactionId ?? 'TXN-12345-ABCDE'}
+            value={receiptData.transactionId}
           />
           <ReceiptItem
             icon={<FaCreditCard className="text-blue-400" />}
             label="Payment Method"
-            value={receiptData?.paymentMethod ?? 'Coinbase'}
+            value={receiptData.paymentMethod}
           />
         </ReceiptSection>
         <ReceiptSection title="Student Information">
           <ReceiptItem
             icon={<FaUser className="text-blue-400" />}
             label="Student Name"
-            value={receiptData?.studentName ?? 'Chris Lee'}
+            value={receiptData.studentName}
           />
           <ReceiptItem
             icon={<FaIdCard className="text-blue-400" />}
             label="Student ID"
-            value={receiptData?.studentId ?? 'STU-1234'}
+            value={receiptData.studentId}
           />
         </ReceiptSection>
       </div>
@@ -144,8 +160,8 @@ const Receipt = ({ receiptData }: { receiptData: ReceiptData }) => {
         </motion.button>
       </div>
     </motion.div>
-  );
-};
+  )
+}
 
 const ReceiptSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="border-b border-gray-600 pb-6">
@@ -154,7 +170,7 @@ const ReceiptSection = ({ title, children }: { title: string; children: React.Re
       {children}
     </div>
   </div>
-);
+)
 
 const ReceiptItem = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (
   <motion.div
@@ -169,6 +185,4 @@ const ReceiptItem = ({ icon, label, value }: { icon: React.ReactNode; label: str
       <p className="font-semibold text-white">{value}</p>
     </div>
   </motion.div>
-);
-
-export default ReceiptPage;
+)

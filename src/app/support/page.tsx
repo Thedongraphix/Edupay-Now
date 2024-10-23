@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaQuestionCircle, FaEnvelope, FaPhone, FaComments, FaBook } from 'react-icons/fa';
+import { FaQuestionCircle, FaEnvelope,FaComments, FaBook } from 'react-icons/fa';
 
 const SupportPage = () => {
   const [activeTab, setActiveTab] = useState('faq');

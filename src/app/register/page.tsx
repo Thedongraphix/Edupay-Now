@@ -184,6 +184,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({ provider, icon, onClick }) 
     onClick={onClick}
     className="w-full inline-flex justify-center py-2 px-4 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-sm font-medium text-gray-400 hover:bg-gray-600 transition duration-300 ease-in-out"
   >
+    <span className="sr-only">Sign in with {provider}</span>
     {icon}
   </motion.button>
 );
