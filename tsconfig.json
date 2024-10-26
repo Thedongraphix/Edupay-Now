@@ -23,6 +23,11 @@
         "src/*"
       ]
     },
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ] // <--- added this line
+    ,
     "plugins": [
       {
         "name": "next"

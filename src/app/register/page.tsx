@@ -1,7 +1,10 @@
-'use client';
+'use client'
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaUser, FaEnvelope, FaLock, FaWallet, FaGoogle, FaGithub, FaApple } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaWallet } from 'react-icons/fa';
+import { ConnectWallet, useAddress, useConnectionStatus } from "@thirdweb-dev/react";
+
 
 interface FormData {
   name: string;
@@ -10,13 +13,21 @@ interface FormData {
   walletAddress: string;
 }
 
-const RegistrationForm = () => {
+const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     password: '',
     walletAddress: '',
   });
+  const address = useAddress();
+  const connectionStatus = useConnectionStatus();
+
+  useEffect(() => {
+    if (address) {
+      setFormData(prev => ({ ...prev, walletAddress: address }));
+    }
+  }, [address]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,11 +37,6 @@ const RegistrationForm = () => {
     e.preventDefault();
     console.log('Form submitted:', formData);
     // Handle registration logic here
-  };
-
-  const handleSocialLogin = (provider: string) => {
-    console.log(`Logging in with ${provider}`);
-    // Handle social login logic here
   };
 
   return (
@@ -49,7 +55,7 @@ const RegistrationForm = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            Create Your Crypto Account
+            Create Your Edupay Account
           </motion.h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -78,56 +84,37 @@ const RegistrationForm = () => {
               value={formData.password}
               onChange={handleChange}
             />
-            <InputField
-              icon={<FaWallet className="text-blue-400" />}
-              type="text"
-              name="walletAddress"
-              placeholder="Wallet Address (Optional)"
-              value={formData.walletAddress}
-              onChange={handleChange}
-            />
+            {address && (
+              <InputField
+                icon={<FaWallet className="text-blue-400" />}
+                type="text"
+                name="walletAddress"
+                placeholder="Wallet Address"
+                value={formData.walletAddress}
+                onChange={handleChange}
+                disabled
+              />
+            )}
           </div>
 
-          <div>
+          <div className="flex flex-col space-y-4">
+            <ConnectWallet 
+              theme="dark"
+              btnTitle="Connect Wallet"
+              modalTitle="Choose your wallet"
+            />
+
             <motion.button
               type="submit"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform"
+              disabled={connectionStatus !== "connected"}
             >
-              Sign Up
+              Complete Registration
             </motion.button>
           </div>
         </form>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-600"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-800 bg-opacity-50 text-gray-400">Or continue with</span>
-            </div>
-          </div>
-
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            <SocialButton
-              provider="Google"
-              icon={<FaGoogle className="text-red-500" />}
-              onClick={() => handleSocialLogin('Google')}
-            />
-            <SocialButton
-              provider="GitHub"
-              icon={<FaGithub className="text-white" />}
-              onClick={() => handleSocialLogin('GitHub')}
-            />
-            <SocialButton
-              provider="Apple"
-              icon={<FaApple className="text-white" />}
-              onClick={() => handleSocialLogin('Apple')}
-            />
-          </div>
-        </div>
 
         <p className="mt-8 text-center text-sm text-gray-400">
           Already have an account?{' '}
@@ -147,9 +134,10 @@ interface InputFieldProps {
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ icon, type, name, placeholder, value, onChange }) => (
+const InputField: React.FC<InputFieldProps> = ({ icon, type, name, placeholder, value, onChange, disabled }) => (
   <motion.div 
     className="relative"
     initial={{ x: -20, opacity: 0 }}
@@ -167,26 +155,9 @@ const InputField: React.FC<InputFieldProps> = ({ icon, type, name, placeholder, 
       value={value}
       onChange={onChange}
       required
+      disabled={disabled}
     />
   </motion.div>
-);
-
-interface SocialButtonProps {
-  provider: string;
-  icon: React.ReactNode;
-  onClick: () => void;
-}
-
-const SocialButton: React.FC<SocialButtonProps> = ({ provider, icon, onClick }) => (
-  <motion.button
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    onClick={onClick}
-    className="w-full inline-flex justify-center py-2 px-4 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-sm font-medium text-gray-400 hover:bg-gray-600 transition duration-300 ease-in-out"
-  >
-    <span className="sr-only">Sign in with {provider}</span>
-    {icon}
-  </motion.button>
 );
 
 interface Particle {
@@ -252,4 +223,4 @@ const BackgroundAnimation = () => {
   );
 };
 
-export default RegistrationForm;
+export default RegisterPage;
