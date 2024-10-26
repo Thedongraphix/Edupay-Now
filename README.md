@@ -28,3 +28,20 @@ Edupay is a cutting-edge blockchain-based platform built on Arbitrum, designed t
    ```bash
    git clone https://github.com/Thedongraphix/Edupay-Now.git
    cd edupay
+
+## Install Dependencies
+
+npm install
+
+## SetUp Environment variables and add
+
+NEXT_PUBLIC_THIRDWEB_CLIENT_ID=your_thirdweb_client_id
+NEXT_PUBLIC_ARBITRUM_RPC_URL=https://arb1.arbitrum.io/rpc
+NEXT_PUBLIC_ARBITRUM_CHAIN_ID=42161
+
+## Run the development server
+
+npm run dev
+
+Open http://localhost:3000/ to view the application 
+
