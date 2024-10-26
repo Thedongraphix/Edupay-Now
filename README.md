@@ -22,7 +22,7 @@ Edupay is a cutting-edge blockchain-based platform built on Arbitrum, designed t
 - **Smart Contracts**: Solidity, Hardhat
 - **Authentication**: Thirdweb Auth
 
-## 🔧 Quick Start for Judges
+## 🔧 Setup 
 
 1. Clone the repository:
    ```bash
